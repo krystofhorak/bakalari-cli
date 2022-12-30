@@ -14,4 +14,9 @@ export class Shell {
   getInput = (): string => {
     return prompt(`[${this.username}@${this.hostname}]${this.prompt}`);
   };
+  getPassword = (): string => {
+    return prompt(this.basicPrompt, {
+      echo: '*',
+    });
+  };
 }
