@@ -8,5 +8,5 @@ export const displayBanner = (bannerName: string) => {
     return;
   }
   const data = fs.readFileSync(`./src/banners/${bannerName}.txt`);
-  console.log(data.toString());
+  console.log(data.toString().trimEnd());
 };

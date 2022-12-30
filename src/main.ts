@@ -1,6 +1,9 @@
 import { Shell } from './classes/shell';
 import { displayBanner } from './functions/bannerFunctions';
-import { fetchLoginToken } from './functions/fetchFunctions';
+import {
+  fetchLoginToken,
+  fetchTeachers,
+} from './functions/fetchFunctions';
 import {
   loadCachedUserAuth,
   cacheUserAuth,
@@ -12,7 +15,7 @@ export const shell = new Shell();
 export const HOSTNAME = 'bakalari';
 
 const getLoginInfo = (): UserAuth => {
-  console.log('Enter your Bakaláři URL');
+  console.log('\nEnter your Bakaláři URL');
   const url = shell.getBasicInput();
   console.log('Enter your username');
   const username = shell.getBasicInput();
@@ -37,7 +40,7 @@ const verifyUserAuth = async (auth: UserAuth): Promise<string> => {
   displayBanner('welcome');
   const auth = loadCachedUserAuth() ?? getLoginInfo();
   const token = await verifyUserAuth(auth);
-  
+
   if (!token) {
     shell.logError('Invalid login info!');
     return;
@@ -51,5 +54,11 @@ const verifyUserAuth = async (auth: UserAuth): Promise<string> => {
   while (true) {
     const input = shell.getInput();
     if (input === 'exit') return;
+    if (input === 'teachers') {
+      const teachers = await fetchTeachers(auth, token);
+      teachers.forEach(teacher => {
+        console.log(`${teacher.Abbrev}: ${teacher.Name}`);
+      });
+    }
   }
 })();

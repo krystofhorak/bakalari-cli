@@ -1,5 +1,7 @@
 import * as fs from 'fs';
 
+import { displayBanner } from './bannerFunctions';
+
 import type { UserAuth } from '../typings/authTypes';
 
 const dataFolder = './data';
@@ -13,7 +15,8 @@ const createDataFolder = () => {
 
 export const loadCachedUserAuth = (): UserAuth | null => {
   if (!fs.existsSync(authFile)) return null;
-  console.log('[LOAD] auth.json');
+  console.log('');
+  displayBanner('cache');
   const loginData = fs.readFileSync(authFile);
   return JSON.parse(loginData.toString());
 };
