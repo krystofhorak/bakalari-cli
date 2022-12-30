@@ -5,6 +5,7 @@ import { fetchLoginToken } from './functions/fetchFunctions';
 import type { UserAuth } from './typings/authTypes';
 
 export const shell = new Shell();
+export const HOSTNAME = 'bakalari';
 
 const getLoginInfo = (): UserAuth => {
   console.log('Enter your Bakaláři URL');
@@ -37,5 +38,12 @@ const verifyUserAuth = async (auth: UserAuth): Promise<string> => {
     return;
   }
   console.log('Logged in!\n');
-  shell.getInput();
+
+  shell.setUsername(auth.username);
+  shell.setHostname(HOSTNAME);
+  
+  while (true) {
+    const input = shell.getInput();
+    if (input === 'exit') return;
+  }
 })();

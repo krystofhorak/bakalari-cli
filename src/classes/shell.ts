@@ -23,4 +23,7 @@ export class Shell {
   logError = (text: string) => {
     console.log(`[ERROR] ${text}`);
   };
+
+  setUsername = (username: string) => { this.username = username };
+  setHostname = (hostname: string) => { this.hostname = hostname };
 }
