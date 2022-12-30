@@ -2,12 +2,12 @@ import { Shell } from './classes/shell';
 import { displayBanner } from './functions/bannerFunctions';
 import {
   fetchLoginToken,
-  fetchTeachers,
 } from './functions/fetchFunctions';
 import {
   loadCachedUserAuth,
   cacheUserAuth,
 } from './functions/dataFunctions';
+import { handleCommand } from './functions/commandFunctions';
 
 import type { UserAuth } from './typings/authTypes';
 
@@ -54,11 +54,6 @@ const verifyUserAuth = async (auth: UserAuth): Promise<string> => {
   while (true) {
     const input = shell.getInput();
     if (input === 'exit') return;
-    if (input === 'teachers') {
-      const teachers = await fetchTeachers(auth, token);
-      teachers.forEach(teacher => {
-        console.log(`${teacher.Abbrev}: ${teacher.Name}`);
-      });
-    }
+    await handleCommand(input, auth, token);
   }
 })();
