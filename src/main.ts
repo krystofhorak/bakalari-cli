@@ -4,6 +4,8 @@ import { fetchLoginToken } from './functions/fetchFunctions';
 
 import type { UserAuth } from './typings/authTypes';
 
+export const shell = new Shell();
+
 const getLoginInfo = (): UserAuth => {
   console.log('Enter your Bakaláři URL');
   const url = shell.getBasicInput();
@@ -19,7 +21,21 @@ const getLoginInfo = (): UserAuth => {
   };
 };
 
-displayBanner('welcome');
-const shell = new Shell();
-getLoginInfo();
-// fetchLoginToken().then(token => console.log(token));
+const verifyUserAuth = async (auth: UserAuth): Promise<string> => {
+  console.log('\nVerifying your login info...');
+  const token = await fetchLoginToken(auth);
+  if (!token) return '';
+  return token;
+};
+
+(async () => {
+  displayBanner('welcome');
+  const auth = getLoginInfo();
+  const token = await verifyUserAuth(auth);
+  if (!token) {
+    shell.logError('Invalid login info!');
+    return;
+  }
+  console.log('Logged in!\n');
+  shell.getInput();
+})();

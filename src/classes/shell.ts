@@ -19,4 +19,8 @@ export class Shell {
       echo: '*',
     });
   };
+
+  logError = (text: string) => {
+    console.log(`[ERROR] ${text}`);
+  };
 }
