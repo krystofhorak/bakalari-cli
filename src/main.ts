@@ -1,6 +1,10 @@
 import { Shell } from './classes/shell';
 import { displayBanner } from './functions/bannerFunctions';
 import { fetchLoginToken } from './functions/fetchFunctions';
+import {
+  loadCachedUserAuth,
+  cacheUserAuth,
+} from './functions/dataFunctions';
 
 import type { UserAuth } from './typings/authTypes';
 
@@ -31,8 +35,9 @@ const verifyUserAuth = async (auth: UserAuth): Promise<string> => {
 
 (async () => {
   displayBanner('welcome');
-  const auth = getLoginInfo();
+  const auth = loadCachedUserAuth() ?? getLoginInfo();
   const token = await verifyUserAuth(auth);
+  
   if (!token) {
     shell.logError('Invalid login info!');
     return;
@@ -41,6 +46,7 @@ const verifyUserAuth = async (auth: UserAuth): Promise<string> => {
 
   shell.setUsername(auth.username);
   shell.setHostname(HOSTNAME);
+  cacheUserAuth(auth);
   
   while (true) {
     const input = shell.getInput();
