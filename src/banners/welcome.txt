@@ -1,0 +1,3 @@
+Bakaláři CLI
+Made by Kryštof Hořák
+Distributed under GNU GPLv3 license
